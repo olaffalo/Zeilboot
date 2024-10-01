@@ -1,3 +1,5 @@
+<!-- hoi olaf -->
+
 <?php
 include 'config.php';
 
