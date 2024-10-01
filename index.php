@@ -1,5 +1,3 @@
-<!-- hoi olaf gfjsdgfjs -->
-
 <?php
 include 'config.php';
 
