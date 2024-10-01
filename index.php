@@ -51,13 +51,9 @@ $boten = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         .boot a {
             display: block;
-            /* Zorg ervoor dat de link het hele gebied beslaat */
             height: 100%;
-            /* Zorg ervoor dat de link de volledige hoogte heeft */
             color: white;
-            /* Zorg ervoor dat de tekstkleur wit is */
             text-decoration: none;
-            /* Verwijder de standaard onderstreping */
         }
 
         .gradient {
@@ -69,23 +65,10 @@ $boten = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
             border-radius: 10px;
             z-index: 1;
-            /* Zorg ervoor dat de gradient boven de afbeelding staat */
         }
-
 
         .boot:hover {
             cursor: pointer;
-            /* Hand cursor wanneer je over de boot gaat */
-        }
-
-        .boot::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60%;
-            border-radius: 10px;
         }
 
         .boot p {
@@ -110,19 +93,14 @@ $boten = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
 
-
-    <?php
-    include 'navbar.php';
-
-
-    ?>
+    <?php include 'navbar.php'; ?>
 
     <!-- Boten Weergave -->
     <div class="boten-container" id="boten-container">
         <?php foreach ($boten as $boot): ?>
             <div class="boot" data-naam="<?= htmlspecialchars($boot['naam']) ?>">
                 <a href="detail.php?id=<?= htmlspecialchars($boot['id']) ?>" style="text-decoration:none; color:white;">
-                    <div class="gradient"></div> <!-- Gradient hier toegevoegd -->
+                    <div class="gradient"></div>
                     <img src="<?= htmlspecialchars($boot['foto_url']) ?>" alt="<?= htmlspecialchars($boot['naam']) ?>">
                     <p>
                         <strong><?= htmlspecialchars($boot['naam']) ?></strong><br>
@@ -132,12 +110,6 @@ $boten = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
     </div>
-
-
-
-
-
-
 
     <script>
         const boten = document.querySelectorAll('.boot');
@@ -160,21 +132,27 @@ $boten = $stmt->fetchAll(PDO::FETCH_ASSOC);
         });
 
         // Hoverfunctionaliteit voor boten
-        boten.forEach((boot, index) => {
-            // Voeg een 'mouseenter' eventlistener toe
+        boten.forEach(boot => {
+            // Voeg 'mouseenter' eventlistener toe
             boot.addEventListener('mouseenter', () => {
                 boten.forEach(b => b.classList.remove('groot'));
                 boten.forEach(b => b.classList.add('klein'));
-
                 boot.classList.add('groot'); // Vergroot de huidige boot
-                boot.classList.remove('klein'); // Verwijder de 'klein' class van de huidige
+                boot.classList.remove('klein'); // Verwijder 'klein' class van de huidige
             });
 
-            // Voeg een 'mouseleave' eventlistener toe (optioneel, als je iets wilt terugdraaien na hover)
+            // Voeg 'mouseleave' eventlistener toe (individuele boot)
             boot.addEventListener('mouseleave', () => {
-                // Hier kun je gedrag instellen als de muis weer van de boot afgaat.
+                resetBoten(); // Reset alle boten als de muis buiten de huidige boot gaat
             });
         });
+
+        // Functie om alle boten terug naar hun oorspronkelijke staat te brengen
+        function resetBoten() {
+            boten.forEach(boot => {
+                boot.classList.remove('groot', 'klein');
+            });
+        }
     </script>
 
     <!-- Voeg Font Awesome toe voor het zoekicoon -->
